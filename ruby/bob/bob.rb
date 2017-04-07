@@ -1,8 +1,8 @@
 class Bob
   def self.hey(phrase)
-    if uppercase?(phrase)
+    if shouting?(phrase)
       'Whoa, chill out!'
-    elsif question?(phrase)
+    elsif asking?(phrase)
       'Sure.'
     elsif !contains_text?(phrase) && !contains_number?(phrase)
       'Fine. Be that way!'
@@ -11,11 +11,11 @@ class Bob
     end
   end
 
-  def self.uppercase?(phrase)
+  def self.shouting?(phrase)
     phrase == phrase.upcase && contais_text?(phrase)
   end
 
-  def self.question?(phrase)
+  def self.asking?(phrase)
     phrase.split('').last == '?'
   end
 
