@@ -14,10 +14,10 @@ class DnaTranscriber{
 
   toRna(input) {
     if(input.match(/[^ATCG]/))
-      throw new Error('Invalid input')
-    var str = Array.from(input)
-    var newStr = str.map(this.turnValues)
-   return newStr.join('');
+      throw new Error('Invalid input');
+    var str = Array.from(input);
+    var newStr = str.map(this.turnValues);
+    return newStr.join('');
   }
 }
 
