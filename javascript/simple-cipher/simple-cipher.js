@@ -1,5 +1,5 @@
 function Cipher(input){
-  if(!input){
+  if(input == null){
     this.key = this.randomString();
     return this.key;
   }
@@ -22,74 +22,56 @@ Cipher.prototype.randomString = function(length=10) {
 };
 
 Cipher.prototype.isValid = function(input) {
-    if(input.match(/[^a-z]/))
-      return false;
-    else
+    if(input.match(/[a-z]/))
       return true;
+    else
+      return false;
 };
 
 Cipher.prototype.encode = function(input) {
-    var charset = "abcdefghijklmnopqrstuvwxyz";
-    if (this.key.length < input.length){
-          this.increaseKeySize(input,this.key);
-    }
-    strInput = this.turnToAscii(input);
-    keyCode = this.turnToAscii(this.key);
-    final = keyCode.map(function (num, i){
-      if (strInput[i] +num < charset.length)
-        return strInput[i] + num;
-      else
-        return (strInput[i] + num) % charset.length;
-    });
-    final_str = final.map(function(x) {
-      return charset.charAt(x);
-    });
-    return final_str.join('');
+  if (this.key.length < input.length)
+        this.increaseKeySize(input,this.key);
+  strInput = this.turnToAscii(input);
+  keyCode = this.turnToAscii(this.key);
+  final = keyCode.map(function (num, i){
+    if (strInput[i] + num < 26)
+      return strInput[i] + num;
+    else
+      return (strInput[i] + num) % 26;
+  });
+  return this.turnToLetters(final);
 };
 
 Cipher.prototype.decode = function(input) {
-    // a = 97;
-    // z = 122;
-    // strInput = this.turnToAscii(input);
-    // keyCode = this.turnToAscii(this.key);
-    // final = strInput.map(function (num, i){
-    //   if ((keyCode[i] - num + a) <= z && (keyCode[i] - num + a) >= a)
-    //     return keyCode[i] - num + a;
-    //   else
-
-      // var min = num - a;
-      // if ((keyCode[i] + min) <= z)
-      //   return keyCode[i] + min;
-      // else{
-      //   diff = (keyCode[i] + min) - z;
-      //   return a-1 + diff;}
-    // });
-    // final_str = final.map(function(x) {
-    //   return String.fromCharCode(x);
-    // });
-    // console.log(final_str.join(''))
-    // console.log("\n")
-    // return final_str.join('');
+  strInput = this.turnToAscii(input);
+  keyCode = this.turnToAscii(this.key);
+  final = strInput.map(function (num, i){
+    if (num - keyCode[i] >= 0)
+      return num - keyCode[i];
+    else
+      return (num - keyCode[i]) + 26;
+  });
+  return this.turnToLetters(final);
 };
 
 Cipher.prototype.increaseKeySize = function(input,key){
-  console.log(input.length / key.length)
-   this.key = key.repeat(input.length / key.length);
+   newKey = key.repeat(Math.floor(input.length / key.length)) +
+            key.substring(0,input.length % key.length);
+   this.key = newKey;
    return this.key;
 };
 
 Cipher.prototype.turnToAscii = function(str) {
     var arr = Array.from(str);
-    var charset = "abcdefghijklmnopqrstuvwxyz";
-    var newArr = [];
-    for (i=0; i< arr.length; i++) {
-      newArr.push(charset.indexOf(arr[i]));
-    }
-    return newArr;
-    // var newArr = arr.map(function(x) {
-    //   return x.charCodeAt(0);
-    // });
-    // return newArr;
+      return arr.map(function(x) {
+      return x.charCodeAt(0) - 97;
+    });
+};
+
+Cipher.prototype.turnToLetters =function(arr) {
+  return arr.map(function(x) {
+      return String.fromCharCode(x + 97);
+  }).join('');
 };
 
 module.exports = Cipher;

@@ -14,14 +14,14 @@ describe('Random key cipher', function () {
     expect(cipher.encode('aaaaaaaaaa')).toEqual(cipher.key.substr(0, 10));
   });
 
-  // it('can decode', function () {
-  //   expect(cipher.decode(cipher.key.substr(0, 10))).toEqual('aaaaaaaaaa');
-  // });
+  it('can decode', function () {
+    expect(cipher.decode(cipher.key.substr(0, 10))).toEqual('aaaaaaaaaa');
+  });
 
-  // it('is reversible', function () {
-  //   var plaintext = 'abcdefghij';
-  //   expect(cipher.decode(cipher.encode(plaintext))).toEqual(plaintext);
-  // });
+  it('is reversible', function () {
+    var plaintext = 'abcdefghij';
+    expect(cipher.decode(cipher.encode(plaintext))).toEqual(plaintext);
+  });
 });
 
 describe('Incorrect key cipher', function () {
@@ -37,11 +37,11 @@ describe('Incorrect key cipher', function () {
     }).toThrow(new Error('Bad key'));
   });
 
-  // xit('throws an error with an empty key', function () {
-  //   expect( function () {
-  //     new Cipher('');
-  //   }).toThrow(new Error('Bad key'));
-  // });
+  it('throws an error with an empty key', function () {
+    expect( function () {
+      new Cipher('');
+    }).toThrow(new Error('Bad key'));
+  });
 });
 
 describe('Substitution cipher', function () {
@@ -52,17 +52,17 @@ describe('Substitution cipher', function () {
     expect(cipher.key).toEqual(key);
   });
 
-it('can encode', function () {
+  it('can encode', function () {
     expect(cipher.encode('aaaaaaaaaa')).toEqual('abcdefghij');
   });
 
-//   xit('can decode', function () {
-//     expect(cipher.decode('abcdefghij')).toEqual('aaaaaaaaaa');
-//   });
+  it('can decode', function () {
+    expect(cipher.decode('abcdefghij')).toEqual('aaaaaaaaaa');
+  });
 
-  // it('is reversible', function () {
-  //   expect(cipher.decode(cipher.encode('abcdefghij'))).toEqual('abcdefghij');
-  // });
+  it('is reversible', function () {
+    expect(cipher.decode(cipher.encode('abcdefghij'))).toEqual('abcdefghij');
+  });
 
   it(': double shift encode', function () {
     expect(new Cipher('iamapandabear').encode('iamapandabear'))
@@ -73,9 +73,9 @@ it('can encode', function () {
     expect(cipher.encode('zzzzzzzzzz')).toEqual('zabcdefghi');
   });
 
-  // it('can wrap on decode', () => {
-  //   expect(cipher.decode('zabcdefghi')).toEqual('zzzzzzzzzz');
-  // });
+  it('can wrap on decode', () => {
+    expect(cipher.decode('zabcdefghi')).toEqual('zzzzzzzzzz');
+  });
 
   it('can handle messages longer than the key', function() {
     expect(new Cipher('abc').encode('iamapandabear'))
